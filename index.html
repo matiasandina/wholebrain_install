@@ -381,16 +381,19 @@ summary {
 <li><a href="#set-system-path-for-rools">Set system path for Rools</a></li>
 <li><a href="#tools">Tools</a></li>
 <li><a href="#install-cmake">Install CMake</a></li>
-<li><a href="#install-ropencvlite">Install ROpenCVLite</a></li>
+<li><a href="#install-rstan">Install <code>rstan</code></a></li>
+<li><a href="#try-rstan">Try <code>rstan</code></a></li>
+<li><a href="#install-ropencvlite">Install <code>ROpenCVLite</code></a></li>
 <li><a href="#install-opencv">Install Opencv</a></li>
-<li><a href="#install-wholebrain">Install wholebrain</a></li>
+<li><a href="#install-wholebrain">Install <code>wholebrain</code></a></li>
 <li><a href="#try-wholebrain">Try <code>wholebrain</code></a></li>
 </ul></li>
 <li><a href="#install-in-ubuntu">Install in Ubuntu</a><ul>
 <li><a href="#required-libraries">Required libraries</a></li>
 <li><a href="#install-r-1">Install R</a></li>
 <li><a href="#install-rstudio-1">Install Rstudio</a></li>
-<li><a href="#try-rstan">Try <code>rstan</code></a></li>
+<li><a href="#install-rstan-1">Install <code>rstan</code></a></li>
+<li><a href="#try-rstan-1">Try <code>rstan</code></a></li>
 <li><a href="#install-rgl">install <code>rgl</code></a></li>
 <li><a href="#check-rgl-works">Check <code>rgl</code> works</a></li>
 <li><a href="#install-cmake-1">Install cmake</a></li>
@@ -429,13 +432,11 @@ summary {
 <p>Tested: 1.1.463 Probably works: Latest version (<a href="https://www.rstudio.com/" class="uri">https://www.rstudio.com/</a>)</p>
 <p>RStudio is not strictly necessary, one can launch R and use it from within a DOS-like command window. But installing and using RStudio makes R easier to use and has several conveniences. Also, the author of Wholebrain uses it, so when corresponding with the author or power users about Wholebrain, they will usually assume you are using RStudio when describing how to do things, so it is worth becoming familiar with it if you aren’t already!</p>
 <blockquote>
-<p>Warning: If you discover this option, please do not install Rtools through RStudio. RStudio will install Rtools to ‘C:’ and not to ‘C:’ which is required by the Wholebrain installation. Stick to installing Rtools manually with these instructions and you won’t encounter a path error.</p>
+<p>Warning: If you discover this option, please do not install Rtools through RStudio. RStudio will install Rtools to <code>C:\RBuildTools</code> and not to <code>C:\Rtools</code> which is required by the Wholebrain installation. Stick to installing Rtools manually with these instructions and you won’t encounter a path error.</p>
 </blockquote>
 <p>RStudio should find your 64-bit installation of R. RStudio will ask you where R is, if you didn’t install R yet. Quit and install R first if that happens. I tried installing RStudio first, just to see if RStudio includes R. It does not! RStudio asked me to locate R the first time it ran and operated normally afterwards.</p>
 <p>RStudio should end up here:</p>
-<blockquote>
-<p>C:Files</p>
-</blockquote>
+<pre><code>C:\Program Files\Rstudio</code></pre>
 <p>Once RStudio is working, please install the devtools package from CRAN. Just copy and paste the lines below to the console, then press “Enter” to run the command:</p>
 <pre class="r"><code>install.packages(&quot;devtools&quot;)</code></pre>
 <p>You can also install the devtools package conveniently by going into the “Tools” menu, and choosing “Install Packages…”, then typing “devtools”.</p>
@@ -444,14 +445,12 @@ summary {
 <h3>Install FFTW</h3>
 <p>Tested 3.3.5. Probably works in latest versions. The Fastest Fourier Transform in The West (FFTW)! Always loved that name.</p>
 <p>Download FFTW 3.3.5 (<a href="ftp://ftp.fftw.org/pub/fftw/fftw-3.3.5-dll64.zip" class="uri">ftp://ftp.fftw.org/pub/fftw/fftw-3.3.5-dll64.zip</a>) Unzip to download folder, then create this folder:</p>
-<blockquote>
-<p>C:</p>
-</blockquote>
+<pre><code>C:\fftw</code></pre>
 <p>And copy these two files into it:</p>
 <pre><code>fftw3.h
 libfftw3-3.dll</code></pre>
 <p>We install it here before Rtools, because we want to add FFTW to the System PATH and the Rtools installer has a step where you can manually edit the PATH directly which is a nice convenience.</p>
-<p>If you for some reason already installed Rtools and didn’t add C:to the PATH, you can use the instructions in #Update System Path to include R and ROpenCVLite to do it. You will be adding an environment variable in the next step anyway, which requires the same instructions, so should be easy to do.</p>
+<p>If you for some reason already installed Rtools and didn’t add <code>C:\fftw</code> to the PATH, you can use the instructions in #Update System Path to include R and ROpenCVLite to do it. You will be adding an environment variable in the next step anyway, which requires the same instructions, so should be easy to do.</p>
 </div>
 <div id="add-the-lib_fftw-environment-variable-to-windows" class="section level3">
 <h3>Add the LIB_FFTW Environment Variable to Windows</h3>
@@ -464,7 +463,7 @@ libfftw3-3.dll</code></pre>
 <p>This command will take you to the wizard to properly install rtools.</p>
 <p>Alternatively, you can manually <a href="https://cran.r-project.org/bin/windows/Rtools/">download Rtools</a> and follow th steps.</p>
 <p><strong>WARNING</strong> It is very important that you only use the tools to build under the proper architecture (for example, 64-bit and not 32-bit).</p>
-<p>To do this in the installation wizard, under <code>Select Components</code>, choose “R toolset, Cygwin DLLs, and R 3.3.x + 64 bit toolchain” not 32-bit!</p>
+<p>To do this in the installation wizard, under <code>Select Components</code>, choose <code>R toolset, Cygwin DLLs, and R 3.3.x + 64 bit toolchain</code> not 32-bit!</p>
 </div>
 <div id="set-system-path-for-rools" class="section level3">
 <h3>Set system path for Rools</h3>
@@ -485,6 +484,7 @@ c:\fftw
 <pre class="r"><code>pkgbuild::check_build_tools()</code></pre>
 <p>You can also check your compiler by running:</p>
 <pre class="r"><code>pkgbuild::check_compiler(debug = TRUE)</code></pre>
+<p>You are going to install CMake later, so don’t worry too much about the compiler now.</p>
 </div>
 <div id="install-cmake" class="section level3">
 <h3>Install CMake</h3>
@@ -495,87 +495,12 @@ c:\fftw
 <p>Quit RStudio if you are running it, because we are about to update the system PATH. RStudio will need CMake to compile Wholebrain and the packages it depends upon, and it will look up CMake’s location in the system PATH that RStudio stores when it launches.</p>
 <p>CMake should add itself to path for you. But, if you forgot to check the box during CMake install, you can add it (or double check) yourself using the instructions for doing it manually #Update System Path to include R and ROpenCVLite</p>
 <p>The path should be:</p>
-<blockquote>
-<p>C:Files</p>
-</blockquote>
+<pre><code>C:\Program Files\CMake\bin </code></pre>
 </div>
-<div id="install-ropencvlite" class="section level3">
-<h3>Install ROpenCVLite</h3>
-<pre class="r"><code>install.packages(&quot;ROpenCVLite&quot;, INSTALL_opts = &quot;--no-multiarch&quot;)
-# you can also specify a particular version from github
-# devtools::install_github(&quot;swarm-lab/ROpenCVLite&quot;, ref = &quot;v0.3.410&quot;, INSTALL_opts=&quot;--no-multiarch&quot;) </code></pre>
-</div>
-<div id="install-opencv" class="section level3">
-<h3>Install Opencv</h3>
-<p>Check whether opencv is installed in your system. Having multiple versions of opencv can lead to issues.</p>
-<pre class="r"><code>ROpenCVLite::isOpenCVInstalled()</code></pre>
-<p>You should install opencv from <code>ROpenCVLite</code>, so R knows where to find it. This operation will take some minutes and you will see a lot of console output.</p>
-<pre class="r"><code>ROpenCVLite::installOpenCV()</code></pre>
-<p>There might be multiple issues during the install. File specific issues to make</p>
-<p>You can check your system has opencv by running again:</p>
-<pre class="r"><code>ROpenCVLite::isOpenCVInstalled()</code></pre>
-<p>Opencv should build successfully (it will require CMake be installed correctly.) We can now add the opencv path to the System PATH, now that opencv is installed.</p>
-<p>Quit Rstudio.</p>
-<p>This time we need to update the system PATH manually, no help from installers. I find it this way in Windows 10:</p>
-<p>This PC -&gt; Right click -&gt; Properties -&gt; Advanced System Settings -&gt; Environment Variables… -&gt; System variables -&gt; [highlight</p>
-<p>Then add the R and ROpenCVLite locations on the end so that the list looks like this (your “%System” lines may</p>
-<pre><code>c:\Rtools\bin 
-c:\Rtools\mingw_64\bin 
-c:\fftw 
-%SystemRoot%\system32 
-%SystemRoot% 
-%SystemRoot%\System32\Wbem 
-%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\ 
-%SYSTEMROOT%\System32\OpenSSH\ 
-C:\Program Files\CMake\bin 
-C:\Program Files\R\R-3.5.1\bin\x64 
-C:\Users\[user_name]\Documents\R\win-library\3.5\ROpenCVLite\opencv\x64\mingw\bin </code></pre>
-<p>Please make sure that the user folder specific path for ROpenCVLite is assigned correctly. The example above is specific to Ben D. Singer’s computer. Generally, the R package folder will be located at the general path pattern:</p>
-<blockquote>
-<p>“C:[user_name]-library[R-version]64”</p>
-</blockquote>
-<p>If you are in doubt about where your R packages are installed, you can check from any R terminal.</p>
-<pre class="r"><code>.libPaths()</code></pre>
-<blockquote>
-<p>NOTE: If you encounter an error during installation of ROpenCVLite in your Windows machine with CMake recognizing your Rtools compilers, try setting either the CMake path to the top of your Paths variables, or the Rtools paths to the top of your Paths variables. This has worked on a few Windows machines.</p>
-</blockquote>
-</div>
-<div id="install-wholebrain" class="section level3">
-<h3>Install wholebrain</h3>
-<p>Ensure that you quit RStudio, since the system PATH has changed. Then start it up again.</p>
-<pre class="r"><code>devtools::install_github(&quot;tractatus/wholebrain&quot;, args=&quot;--no-multiarch&quot;) </code></pre>
-</div>
-<div id="try-wholebrain" class="section level3">
-<h3>Try <code>wholebrain</code></h3>
-<p>You should be able to run the segmentation example below</p>
-<pre class="r"><code>library(wholebrain) 
-filename&lt;-system.file('sample_tiles/rabiesEGFP.tif', package='wholebrain') 
-seg&lt;-segment(filename) </code></pre>
-<div id="possible-errors" class="section level4">
-<h4>Possible errors</h4>
-<p>Error loading wholebrain.dll</p>
-<p>Make sure the PATH contains the location of R and ROpenCVLite libraries.</p>
-</div>
-</div>
-</div>
-<div id="install-in-ubuntu" class="section level2">
-<h2>Install in Ubuntu</h2>
-<p>It might sound obvious, but it’s usually good practice before big installs.</p>
-<pre><code>sudo apt-get update
-sudo apt-get upgrade</code></pre>
-<div id="required-libraries" class="section level3">
-<h3>Required libraries</h3>
-<p>From terminal:</p>
-<pre><code>sudo apt-get install fftw3 fftw3-dev pkg-config</code></pre>
-<pre><code>sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev</code></pre>
-</div>
-<div id="install-r-1" class="section level3">
-<h3>Install R</h3>
-</div>
-<div id="install-rstudio-1" class="section level3">
-<h3>Install Rstudio</h3>
+<div id="install-rstan" class="section level3">
+<h3>Install <code>rstan</code></h3>
 <pre class="r"><code>install.packages(&quot;rstan&quot;, dependencies = TRUE)</code></pre>
-<div id="possible-errors-1" class="section level4">
+<div id="possible-errors" class="section level4">
 <h4>Possible errors</h4>
 <pre><code>“failed to create lock directory”</code></pre>
 </div>
@@ -606,12 +531,158 @@ fit &lt;- stan(model_code = model, data = model_data, iter = 4000, chains =4)
 la &lt;- extract(fit)
 hist(la$mu)</code></pre>
 <p>It should produce something similar to this plot:</p>
-<pre class="r"><code>knitr::include_graphics(&quot;histogram.png&quot;)</code></pre>
+<p><img src="data:image/png;base64,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" width="286" /></p>
+</div>
+<div id="install-ropencvlite" class="section level3">
+<h3>Install <code>ROpenCVLite</code></h3>
+<pre class="r"><code>install.packages(&quot;ROpenCVLite&quot;, INSTALL_opts = &quot;--no-multiarch&quot;)
+# you can also specify a particular version from github
+# devtools::install_github(&quot;swarm-lab/ROpenCVLite&quot;, ref = &quot;v0.3.410&quot;, INSTALL_opts=&quot;--no-multiarch&quot;) </code></pre>
+</div>
+<div id="install-opencv" class="section level3">
+<h3>Install Opencv</h3>
+<p>Check whether opencv is installed in your system. Having multiple versions of opencv can lead to issues.</p>
+<pre class="r"><code>ROpenCVLite::isOpenCVInstalled()</code></pre>
+<p>You should install opencv from <code>ROpenCVLite</code>, so R knows where to find it. This operation will take some minutes and you will see a lot of console output.</p>
+<pre class="r"><code>ROpenCVLite::installOpenCV()</code></pre>
+<p>There might be multiple issues during the install. File specific issues to make</p>
+<p>You can check your system has opencv by running again:</p>
+<pre class="r"><code>ROpenCVLite::isOpenCVInstalled()</code></pre>
+<p>Opencv should build successfully (it will require CMake be installed correctly.) We can now add the opencv path to the System PATH, now that opencv is installed.</p>
+<p>Quit Rstudio.</p>
+<p>This time we need to update the system PATH manually, no help from installers. I find it this way in Windows 10:</p>
+<p>This PC -&gt; Right click -&gt; Properties -&gt; Advanced System Settings -&gt; Environment Variables… -&gt; System variables -&gt; [highlight</p>
+<p>Then add the R and ROpenCVLite locations on the end so that the list looks like this (your “%System” lines may</p>
+<pre><code>c:\Rtools\bin 
+c:\Rtools\mingw_64\bin 
+c:\fftw 
+%SystemRoot%\system32 
+%SystemRoot% 
+%SystemRoot%\System32\Wbem 
+%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\ 
+%SYSTEMROOT%\System32\OpenSSH\ 
+C:\Program Files\CMake\bin 
+C:\Program Files\R\R-3.5.1\bin\x64 
+C:\Users\[user_name]\Documents\R\win-library\3.5\ROpenCVLite\opencv\x64\mingw\bin </code></pre>
+<p>Please make sure that the user folder specific path for <code>ROpenCVLite</code> is assigned correctly. The example above is specific to Ben D. Singer’s computer. Generally, the R package folder will be located at the general path pattern:</p>
+<pre><code>C:\Users\[user_name]\Documents\R\win-library\[R-version]\ROpenCVLite\opencv\x64\mingw\bin</code></pre>
+<p>If you are in doubt about where your R packages are installed, you can check from any R terminal.</p>
+<pre class="r"><code>.libPaths()</code></pre>
+<blockquote>
+<p>NOTE: If you encounter an error during installation of ROpenCVLite in your Windows machine with CMake recognizing your Rtools compilers, try setting either the CMake path to the top of your Paths variables, or the Rtools paths to the top of your Paths variables. This has worked on a few Windows machines.</p>
+</blockquote>
+</div>
+<div id="install-wholebrain" class="section level3">
+<h3>Install <code>wholebrain</code></h3>
+<p>Ensure that you quit RStudio, since the system PATH has changed. Then start it up again.</p>
+<pre class="r"><code>devtools::install_github(&quot;tractatus/wholebrain&quot;, args=&quot;--no-multiarch&quot;) </code></pre>
+</div>
+<div id="try-wholebrain" class="section level3">
+<h3>Try <code>wholebrain</code></h3>
+<p>You should be able to run the segmentation example below</p>
+<pre class="r"><code>library(wholebrain) 
+filename&lt;-system.file('sample_tiles/rabiesEGFP.tif', package='wholebrain') 
+seg&lt;-segment(filename) </code></pre>
+<div id="possible-errors-1" class="section level4">
+<h4>Possible errors</h4>
+<p>Error loading <code>wholebrain.dll</code></p>
+<p>Make sure the PATH contains the location of R and ROpenCVLite libraries.</p>
+</div>
+</div>
+</div>
+<div id="install-in-ubuntu" class="section level2">
+<h2>Install in Ubuntu</h2>
+<p>It might sound obvious, but it’s usually good practice before big installs.</p>
+<pre><code>sudo apt-get update
+sudo apt-get upgrade</code></pre>
+<div id="required-libraries" class="section level3">
+<h3>Required libraries</h3>
+<p>Begin by installed required libraries from terminal:</p>
+<pre><code>sudo apt-get install fftw3 fftw3-dev pkg-config</code></pre>
+<pre><code>sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev</code></pre>
+</div>
+<div id="install-r-1" class="section level3">
+<h3>Install R</h3>
+<p>If you don’t have R already installed</p>
+<pre><code># Add repo to install the last R
+sudo apt install apt-transport-https software-properties-common
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu disco-cran35/'
+
+# Install R
+sudo apt update
+sudo apt install gdebi libxml2-dev libssl-dev libcurl4-openssl-dev libopenblas-dev r-base r-base-dev</code></pre>
+<p>You should be able to start R from a terminal</p>
+<pre><code>R</code></pre>
+<p>and see the startup message</p>
+<pre><code>R version 3.6.2 (2019-12-12) -- &quot;Dark and Stormy Night&quot;
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+&gt; 
+</code></pre>
+</div>
+<div id="install-rstudio-1" class="section level3">
+<h3>Install Rstudio</h3>
+<p>To install Rstudio run from a terminal.</p>
+<pre><code>cd ~/Downloads
+wget https://download1.rstudio.org/desktop/bionic/amd64/rstudio-1.2.5001-amd64.deb
+sudo gdebi rstudio-1.2.5001-amd64.deb</code></pre>
+</div>
+<div id="install-rstan-1" class="section level3">
+<h3>Install <code>rstan</code></h3>
+<pre class="r"><code>install.packages(&quot;rstan&quot;, dependencies = TRUE)</code></pre>
+<div id="possible-errors-2" class="section level4">
+<h4>Possible errors</h4>
+<pre><code>“failed to create lock directory”</code></pre>
+</div>
+<div id="solutions-1" class="section level4">
+<h4>Solutions</h4>
+<p>Check the path where R installs the libraries. You might not have writing permissions or there might be</p>
+<pre><code>install.packages(&quot;rstan&quot;, dependencies = TRUE, INSTALL_opts = c('--no-lock'))</code></pre>
+</div>
+</div>
+<div id="try-rstan-1" class="section level3">
+<h3>Try <code>rstan</code></h3>
+<p>Check that the <code>rstan</code> package is working.</p>
+<pre class="r"><code>model&lt;-'data{
+int N;
+real y[N];
+}
+parameters{
+real mu;
+real sigma;
+}
+model{
+y ~ normal(mu, sigma);
+}'
+
+
+model_data &lt;- list( y = rnorm(10), N = 10  )
+fit &lt;- stan(model_code = model, data = model_data, iter = 4000, chains =4)
+la &lt;- extract(fit)
+hist(la$mu)</code></pre>
+<p>It should produce something similar to this plot:</p>
+<p><img src="data:image/png;base64,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" width="286" /></p>
 </div>
 <div id="install-rgl" class="section level3">
 <h3>install <code>rgl</code></h3>
 <pre class="r"><code>install.packages(&quot;rgl&quot;)</code></pre>
-<div id="possible-errors-2" class="section level4">
+<div id="possible-errors-3" class="section level4">
 <h4>Possible errors</h4>
 <p>Problems with X11, which is needed for graphic display by <code>rgl</code> and <code>wholebrain</code>.</p>
 <pre><code>configure: error: X11 not found but required, configure aborted.</code></pre>

@@ -6,6 +6,7 @@ output:
   html_document:
     toc: true
     toc_depth: 3
+    self_contained: true
 ---
 
 ```{r setup, include=FALSE}
@@ -44,13 +45,15 @@ Tested: 1.1.463 Probably works: Latest version (https://www.rstudio.com/)
 
 RStudio is not strictly necessary, one can launch R and use it from within a DOS-like command window. But installing and using RStudio makes R easier to use and has several conveniences. Also, the author of Wholebrain uses it, so when corresponding with the author or power users about Wholebrain, they will usually assume you are using RStudio when describing how to do things, so it is worth becoming familiar with it if you aren't already! 
 
-> Warning: If you discover this option, please do not install Rtools through RStudio. RStudio will install Rtools to ‘C:\RBuildTools’ and not to ‘C:\Rtools’ which is required by the Wholebrain installation. Stick to installing Rtools manually with these instructions and you won’t encounter a path error.  
+> Warning: If you discover this option, please do not install Rtools through RStudio. RStudio will install Rtools to `C:\RBuildTools` and not to `C:\Rtools` which is required by the Wholebrain installation. Stick to installing Rtools manually with these instructions and you won’t encounter a path error.  
 
 RStudio should find your 64-bit installation of R. RStudio will ask you where R is, if you didn't install R yet. Quit and install R first if that happens. I tried installing RStudio first, just to see if RStudio includes R. It does not! RStudio asked me to locate R the first time it ran and operated normally afterwards. 
 
 RStudio should end up here: 
 
-> C:\Program Files\Rstudio
+```
+C:\Program Files\Rstudio
+```
 
 Once RStudio is working, please install the devtools package from CRAN. Just copy and paste the lines below to the console, then press “Enter” to run the command: 
 
@@ -67,7 +70,9 @@ The Fastest Fourier Transform in The West (FFTW)! Always loved that name.
 
 Download FFTW 3.3.5 (ftp://ftp.fftw.org/pub/fftw/fftw-3.3.5-dll64.zip) Unzip to download folder, then create this folder:
 
-> C:\fftw
+```
+C:\fftw
+```
 
 And copy these two files into it:
 
@@ -77,7 +82,7 @@ libfftw3-3.dll
 ```
 We install it here before Rtools, because we want to add FFTW to the System PATH and the Rtools installer has a step where you can manually edit the PATH directly which is a nice convenience. 
 
-If you for some reason already installed Rtools and didn't add C:\fftw to the PATH, you can use the instructions in #Update System Path to include R and ROpenCVLite to do it. You will be adding an environment variable in the next step anyway, which requires the same instructions, so should be easy to do. 
+If you for some reason already installed Rtools and didn't add `C:\fftw` to the PATH, you can use the instructions in #Update System Path to include R and ROpenCVLite to do it. You will be adding an environment variable in the next step anyway, which requires the same instructions, so should be easy to do. 
 
 ### Add the LIB_FFTW Environment Variable to Windows 
 
@@ -98,7 +103,7 @@ Alternatively, you can manually [download Rtools](https://cran.r-project.org/bin
 **WARNING**
 It is very important that you only use the tools to build under the proper architecture (for example, 64-bit and not 32-bit).
 
-To do this in the installation wizard, under `Select Components`, choose "R toolset, Cygwin DLLs, and R 3.3.x + 64 bit toolchain" not 32-bit! 
+To do this in the installation wizard, under `Select Components`, choose `R toolset, Cygwin DLLs, and R 3.3.x + 64 bit toolchain` not 32-bit! 
 
 ### Set system path for Rools
 
@@ -140,6 +145,8 @@ You can also check your compiler by running:
 pkgbuild::check_compiler(debug = TRUE)
 ```
 
+You are going to install CMake later, so don't worry too much about the compiler now.
+
 ### Install CMake
 
 Tested: 3.13.0-rc3 Probably works: Latest version (https://cmake.org/download/) 
@@ -159,9 +166,62 @@ CMake should add itself to path for you. But, if you forgot to check the box dur
 
 The path should be:
 
-> C:\Program Files\CMake\bin 
+```
+C:\Program Files\CMake\bin 
+```
 
-### Install ROpenCVLite
+### Install `rstan`
+
+```{r install-rstan-windows}
+install.packages("rstan", dependencies = TRUE)
+```
+
+#### Possible errors 
+
+```
+“failed to create lock directory”
+```
+#### Solutions  
+
+Check the path where R installs the libraries. You might not have writing permissions or there might be 
+
+```
+install.packages("rstan", dependencies = TRUE, INSTALL_opts = c('--no-lock'))
+```
+
+### Try `rstan` 
+
+Check that the `rstan` package is working.
+
+
+```{r}
+model<-'data{
+int N;
+real y[N];
+}
+parameters{
+real mu;
+real sigma;
+}
+model{
+y ~ normal(mu, sigma);
+}'
+
+
+model_data <- list( y = rnorm(10), N = 10  )
+fit <- stan(model_code = model, data = model_data, iter = 4000, chains =4)
+la <- extract(fit)
+hist(la$mu)
+```
+
+It should produce something similar to this plot:
+
+```{r, eval=TRUE, echo=FALSE}
+knitr::include_graphics("histogram.png")
+```
+
+
+### Install `ROpenCVLite`
 
 ```{r}
 install.packages("ROpenCVLite", INSTALL_opts = "--no-multiarch")
@@ -218,10 +278,11 @@ C:\Program Files\R\R-3.5.1\bin\x64
 C:\Users\[user_name]\Documents\R\win-library\3.5\ROpenCVLite\opencv\x64\mingw\bin 
 ```
 
-Please make sure that the user folder specific path for ROpenCVLite is assigned correctly. The example above is specific to Ben D. Singer’s computer. Generally, the R package folder will be located at the general path pattern: 
+Please make sure that the user folder specific path for `ROpenCVLite` is assigned correctly. The example above is specific to Ben D. Singer’s computer. Generally, the R package folder will be located at the general path pattern: 
 
-> “C:\Users\[user_name]\Documents\R\win-library\[R-version]\ROpenCVLite\opencv\x64\mingw\bin” 
-
+```
+C:\Users\[user_name]\Documents\R\win-library\[R-version]\ROpenCVLite\opencv\x64\mingw\bin
+```
 
 If you are in doubt about where your R packages are installed, you can check from any R terminal.
 
@@ -231,7 +292,7 @@ If you are in doubt about where your R packages are installed, you can check fro
 
 > NOTE: If you encounter an error during installation of ROpenCVLite in your Windows machine with CMake recognizing your Rtools compilers, try setting either the CMake path to the top of your Paths variables, or the Rtools paths to the top of your Paths variables. This has worked on a few Windows machines. 
 
-### Install wholebrain
+### Install `wholebrain`
 
 Ensure that you quit RStudio, since the system PATH has changed. Then start it up again.
 
@@ -251,7 +312,7 @@ seg<-segment(filename)
 
 #### Possible errors
 
-Error loading wholebrain.dll 
+Error loading `wholebrain.dll` 
 
 Make sure the PATH contains the location of R and ROpenCVLite libraries. 
 
@@ -267,7 +328,7 @@ sudo apt-get upgrade
 
 ### Required libraries
 
-From terminal:
+Begin by installed required libraries from terminal:
 
 ```
 sudo apt-get install fftw3 fftw3-dev pkg-config
@@ -280,8 +341,62 @@ sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavform
 
 ### Install R
 
+If you don't have R already installed
+
+```
+# Add repo to install the last R
+sudo apt install apt-transport-https software-properties-common
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu disco-cran35/'
+
+# Install R
+sudo apt update
+sudo apt install gdebi libxml2-dev libssl-dev libcurl4-openssl-dev libopenblas-dev r-base r-base-dev
+```
+
+You should be able to start R from a terminal 
+
+```
+R
+```
+
+and see the startup message
+
+```
+R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+
+```
+
 ### Install Rstudio
 
+To install Rstudio run from a terminal.
+
+```
+cd ~/Downloads
+wget https://download1.rstudio.org/desktop/bionic/amd64/rstudio-1.2.5001-amd64.deb
+sudo gdebi rstudio-1.2.5001-amd64.deb
+```
+
+
+### Install `rstan`
 
 ```{r install-rstan}
 install.packages("rstan", dependencies = TRUE)
@@ -327,7 +442,7 @@ hist(la$mu)
 
 It should produce something similar to this plot:
 
-```{r}
+```{r, eval=TRUE, echo=FALSE}
 knitr::include_graphics("histogram.png")
 ```
 
