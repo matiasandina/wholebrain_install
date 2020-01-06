@@ -371,7 +371,9 @@ summary {
 
 <div id="TOC">
 <ul>
+<li><a href="#introduction">Introduction</a></li>
 <li><a href="#install-in-windows">Install in Windows</a><ul>
+<li><a href="#install-r">Install R</a></li>
 <li><a href="#install-rstudio">Install Rstudio</a></li>
 <li><a href="#install-fftw">Install FFTW</a></li>
 <li><a href="#add-the-lib_fftw-environment-variable-to-windows">Add the LIB_FFTW Environment Variable to Windows</a></li>
@@ -386,7 +388,7 @@ summary {
 </ul></li>
 <li><a href="#install-in-ubuntu">Install in Ubuntu</a><ul>
 <li><a href="#required-libraries">Required libraries</a></li>
-<li><a href="#install-r">Install R</a></li>
+<li><a href="#install-r-1">Install R</a></li>
 <li><a href="#install-rstudio-1">Install Rstudio</a></li>
 <li><a href="#try-rstan">Try <code>rstan</code></a></li>
 <li><a href="#install-rgl">install <code>rgl</code></a></li>
@@ -404,9 +406,15 @@ summary {
 </ul>
 </div>
 
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>These manual contains information to install <a href="http://www.wholebrainsoftware.org">wholebrain software</a> Tested on Windows 10 64-bit. Tested on Ubuntu 18.04 and 19.10. It was tested on macOS X using the instructions as appear <a href="http://www.wholebrainsoftware.org/cms/installing-wholebrain-on-mac-osx/">here</a> with minor modifications. Please contribute to make this manual current!</p>
+<p>At the time of this writing (Jan 2020) the version of Wholebrain installed is 0.1.35.</p>
+</div>
 <div id="install-in-windows" class="section level2">
 <h2>Install in Windows</h2>
-<p>Tested on Windows 10 64-bit. At the time of this writing (Jan 2020) the version of Wholebrain installed is 0.1.35.</p>
+<div id="install-r" class="section level3">
+<h3>Install R</h3>
 <p>Tested R Versions: 3.5.1, 3.5.2, 3.6.1, 3.6.2. Probably works for later versions: Latest version Download R (<a href="https://cran.r-project.org/bin/windows/base/" class="uri">https://cran.r-project.org/bin/windows/base/</a>)</p>
 <p>Under Select Components, choose “64-bit User Installation.”</p>
 <blockquote>
@@ -415,6 +423,7 @@ summary {
 <p><strong>[OPTIONAL]</strong>: Under Customize Startup, choose “SDI (separate windows)”</p>
 <p>You should install R into:</p>
 <pre><code>C:\Program Files\R</code></pre>
+</div>
 <div id="install-rstudio" class="section level3">
 <h3>Install Rstudio</h3>
 <p>Tested: 1.1.463 Probably works: Latest version (<a href="https://www.rstudio.com/" class="uri">https://www.rstudio.com/</a>)</p>
@@ -560,7 +569,7 @@ sudo apt-get upgrade</code></pre>
 <pre><code>sudo apt-get install fftw3 fftw3-dev pkg-config</code></pre>
 <pre><code>sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev</code></pre>
 </div>
-<div id="install-r" class="section level3">
+<div id="install-r-1" class="section level3">
 <h3>Install R</h3>
 </div>
 <div id="install-rstudio-1" class="section level3">
