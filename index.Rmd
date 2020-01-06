@@ -172,6 +172,8 @@ C:\Program Files\CMake\bin
 
 ### Install `rstan`
 
+In the R console, run:
+
 ```{r install-rstan-windows}
 install.packages("rstan", dependencies = TRUE)
 ```
@@ -335,7 +337,7 @@ sudo apt-get install fftw3 fftw3-dev pkg-config
 ```
 
 ```
-sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
+sudo apt-get install libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
 ```
 
 
@@ -397,6 +399,8 @@ sudo gdebi rstudio-1.2.5001-amd64.deb
 
 
 ### Install `rstan`
+
+In the R console, run:
 
 ```{r install-rstan}
 install.packages("rstan", dependencies = TRUE)
@@ -569,7 +573,7 @@ seg<-segment(filename)
 
 ## Issues
 
-The amount of things that can go bad is substantial, please file issues to  
+The amount of things that can go bad is substantial, please file issues to https://github.com/matiasandina/wholebrain_install/issues
 
 ## Contribute
 
