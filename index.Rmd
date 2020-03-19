@@ -1,7 +1,7 @@
 ---
 title: "Wholebrain Installation"
 author: "Ben Singer & Matias Andina"
-date: "`r Sys.Date()`"
+date: "`r paste('Last Updated:', Sys.Date())`"
 output:
   html_document:
     toc: true
@@ -16,16 +16,22 @@ knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ## Introduction
 
 These manual contains information to install [wholebrain software](http://www.wholebrainsoftware.org)
-Tested on Windows 10 64-bit. Tested on Ubuntu 18.04 and 19.10.
+Tested on Windows 7 and Windows 10 64-bit. Tested on Ubuntu 18.04 and 19.10.
 It was tested on macOS X using the instructions as appear [here](http://www.wholebrainsoftware.org/cms/installing-wholebrain-on-mac-osx/) with minor modifications. Please contribute to make this manual current!
-
-At the time of this writing (Jan 2020) the version of Wholebrain installed is 0.1.35. 
 
 ## Install in Windows
 
+This has been tried in Windows 10 and 7. There are small but crucial differences between both installs.
+
 ### Install R
 
-Tested R Versions: 3.5.1, 3.5.2, 3.6.1, 3.6.2. Probably works for later versions: Latest version Download R (https://cran.r-project.org/bin/windows/base/) 
+Tested R Versions: 3.5.1, 3.5.2, 3.6.1, 3.6.2. You can find the latest version to download R (https://cran.r-project.org/bin/windows/base/) 
+
+By default, R will install in `C:\Program Files\R`. This might create a problem with your libraries due to the space between "Program" and "Files". If you choose to install in "Program Files", please make sure your library path does not contain any spaces (check info for `installr::create.global.library()`) To avoid problems you can also install R into:
+
+```
+C:\R
+```
 
 Under Select Components, choose "64-bit User Installation."
 
@@ -33,11 +39,6 @@ Under Select Components, choose "64-bit User Installation."
 
 **[OPTIONAL]**: Under Customize Startup, choose "SDI (separate windows)"
 
-You should install R into:
-
-```
-C:\Program Files\R
-```
 
 ### Install Rstudio
 
@@ -45,7 +46,7 @@ Tested: 1.1.463 Probably works: Latest version (https://www.rstudio.com/)
 
 RStudio is not strictly necessary, one can launch R and use it from within a DOS-like command window. But installing and using RStudio makes R easier to use and has several conveniences. Also, the author of Wholebrain uses it, so when corresponding with the author or power users about Wholebrain, they will usually assume you are using RStudio when describing how to do things, so it is worth becoming familiar with it if you aren't already! 
 
-> Warning: If you discover this option, please do not install Rtools through RStudio. RStudio will install Rtools to `C:\RBuildTools` and not to `C:\Rtools` which is required by the Wholebrain installation. Stick to installing Rtools manually with these instructions and you won’t encounter a path error.  
+> Warning: RStudio might install Rtools to `C:\RBuildTools` and not to `C:\Rtools` which is required by the Wholebrain installation. You have two options, 1) stick to installing Rtools manually or 2) follow these instructions and you won’t encounter a path error.  
 
 RStudio should find your 64-bit installation of R. RStudio will ask you where R is, if you didn't install R yet. Quit and install R first if that happens. I tried installing RStudio first, just to see if RStudio includes R. It does not! RStudio asked me to locate R the first time it ran and operated normally afterwards. 
 
@@ -82,41 +83,85 @@ libfftw3-3.dll
 ```
 We install it here before Rtools, because we want to add FFTW to the System PATH and the Rtools installer has a step where you can manually edit the PATH directly which is a nice convenience. 
 
-If you for some reason already installed Rtools and didn't add `C:\fftw` to the PATH, you can use the instructions in #Update System Path to include R and ROpenCVLite to do it. You will be adding an environment variable in the next step anyway, which requires the same instructions, so should be easy to do. 
+If you for some reason already installed Rtools and didn't add `C:\fftw` to the PATH, you should do it manually. You will be adding an environment variable in the next step anyway, which requires the same instructions, so should be easy to do. 
 
 ### Add the LIB_FFTW Environment Variable to Windows 
 
-Use the instructions in #Update System Path to include R and ROpenCVLite to get to the Environment Variables window. But rather than edit the PATH, an existing environment variable, we will create a new one called LIB_FFTW. Use the New button to create the variable, and then fill in its value: `C:\fftw`.
+We will create a new environment variable called LIB_FFTW. Use the `New` button to create the variable, and then fill in its value: `C:\fftw`.
+![](add_fft.png)
+![](lib_fftw_variable.png)
 
 ### Install Rtools
 
 We need to build wholebrain ourselves. In Windows, Rtools is needed to build R packages. You can install rtools using the `installr` package.
 
 ```{r}
+install.packages("installr")
 installr::install.rtools()
 ```
 
-This command will take you to the wizard to properly install rtools. 
+This command will take you to the wizard to properly install rtools. In this install we will use the recommended `Rtools35.exe`. 
 
-Alternatively, you can manually [download Rtools](https://cran.r-project.org/bin/windows/Rtools/) and follow th steps.
+> **WARNING:** This wizard is NOT your typical "next-next-next"! Follow the instructions carefully! 
+
+![](rtools_install_01.png)
+
+Alternatively, you can manually [download Rtools](https://cran.r-project.org/bin/windows/Rtools/) and follow the steps.
+
+Again, make sure your path goes to `C:\Rtools`.
+
+![](rtools_install_02.png)
 
 **WARNING**
-It is very important that you only use the tools to build under the proper architecture (for example, 64-bit and not 32-bit).
+It is very important that you only use the tools to build under the proper architecture (for example, 64-bit and not 32-bit). To do this in the installation wizard, under `Select Components`, choose `R toolset, Cygwin DLLs, and R 3.3.x + 64 bit toolchain` not 32-bit! 
 
-To do this in the installation wizard, under `Select Components`, choose `R toolset, Cygwin DLLs, and R 3.3.x + 64 bit toolchain` not 32-bit! 
+![](rtools_install_03.png)
 
-### Set system path for Rools
+Add rtools to PATH
 
-You should be able to edit your path through the wizard. Your path should look like:
+![](rtools_install_04.png)
+
+### Set system path for Rtools
+
+You should be able to edit your path through the wizard. Make sure each line of your path finishes with ';'. Your path should look like:
 
 ```
-c:\Rtools\bin 
-c:\Rtools\mingw_64\bin 
-c:\fftw 
+C:\Rtools\bin; 
+C:\Rtools\mingw_64\bin; 
+C:\fftw;
 ... (leave everything below here alone!) 
 ```
 
-If you forgot or skipped this convenient part of the Rtools installer, you can add those directories to the PATH via #Update System Path to include R and ROpenCVLite 
+![](rtools_install_05.png)
+
+If you forgot or skipped this convenient part of the Rtools installer, you can add those directories to the PATH manually.
+  
+Finish the installation.
+
+Check your path! 
+
+```{r}
+strsplit(Sys.getenv("PATH"), ";")
+```
+
+Make sure each line contains only one path (if you forgot to add the ';' you will see two paths on the same line), you should see something similar to this:
+
+```
+[[1]]
+ [1] "c:\\Program Files\\R\\R-3.6.3\\bin\\x64"                                     
+ [2] "C:\\Rtools\\bin"                                                             
+ [3] "C:\\Rtools\\mingw_64\\bin"                                                   
+ [4] "C:\\fftw"
+ [5] "C:\\Program Files\\AdoptOpenJDK\\jdk-8.0.242.08-hotspot\\bin"        
+ [6] "C:\\windows\\system32"                                                       
+ [7] "C:\\windows"                                                                 
+ [8] "C:\\windows\\System32\\Wbem"                                                 
+ [9] "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"                            
+ [10] "c:\\Program Files\\Microsoft SQL Server\\120\\Tools\\Binn\\"                 
+[11] "C:\\Users\\Lightsheet\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\"
+[12] "C:\\Users\\Lightsheet\\AppData\\Local\\Programs\\Python\\Python38\
+```
+
 
 ### Tools
 
@@ -130,12 +175,14 @@ and
 
 ```{r}
 pkgbuild::has_build_tools()
+# TRUE
 ```
 
 and 
 
 ```{r}
 pkgbuild::check_build_tools()
+# Your system is ready to build packages!
 ```
 
 
@@ -145,30 +192,69 @@ You can also check your compiler by running:
 pkgbuild::check_compiler(debug = TRUE)
 ```
 
-You are going to install CMake later, so don't worry too much about the compiler now.
+If you don't have CMake, you will get
+
+```
+Trying to compile a simple C file
+Running "c:/PROGRA~1/R/R-36~1.3/bin/x64/Rcmd.exe" SHLIB \
+  foo.c
+Warning message:
+In system(cmd) : 'make' not found
+Error: Failed to compile C code
+```
+
+You are going to install CMake in the next step, so don't worry too much about the compiler now.
 
 ### Install CMake
 
-Tested: 3.13.0-rc3 Probably works: Latest version (https://cmake.org/download/) 
+Tested: 3.13.0-rc3 Probably works for new versions. Latest version (https://cmake.org/download/) 
 
 You can install CMake using the `installr` package:
 
 ```{r}
-installr::install.cmake()
+installr::install.cmake() # might fail because CMake updated website
+# Try this release if fails
+installr::install.URL("https://github.com/Kitware/CMake/releases/download/v3.16.5/cmake-3.16.5-win64-x64.msi")
 ```
 
 
-You can manually [download CMake](https://cmake.org/download/) and install to its default location. 
+Alternatively, you can manually [download CMake](https://cmake.org/download/) and install to its default location. 
 
-Quit RStudio if you are running it, because we are about to update the system PATH. RStudio will need CMake to compile Wholebrain and the packages it depends upon, and it will look up CMake's location in the system PATH that RStudio stores when it launches. 
+If you are running it, quit Rstudio to update the system PATH values on Rstudio. RStudio will need CMake to compile Wholebrain and the packages it depends upon, and it will look up CMake's location in the system PATH (that RStudio stores when it launches). 
 
-CMake should add itself to path for you. But, if you forgot to check the box during CMake install, you can add it (or double check) yourself using the instructions for doing it manually #Update System Path to include R and ROpenCVLite 
+CMake should add itself to path for you. But, if you forgot to check the box during CMake install, you can add it (or double check) yourself using the instructions for doing it manually via set environment variables.
 
 The path should be:
 
 ```
 C:\Program Files\CMake\bin 
 ```
+
+You can check things are OK by running:
+
+```{r}
+path_variables <- unlist(strsplit(Sys.getenv("PATH"), ";"))
+grep("CMake", path_variables, value=TRUE)
+# should return C:\\Program Files\\CMake\\bin 
+```
+
+
+Again, check compiler.
+
+```{r}
+pkgbuild::check_compiler(debug = TRUE)
+```
+
+You should get something similar to:
+
+```
+Running "c:/PROGRA~1/R/R-36~1.3/bin/x64/Rcmd.exe" SHLIB foo.c
+c:/Rtools/mingw_64/bin/gcc  -I"c:/PROGRA~1/R/R-36~1.3/include" -DNDEBUG          -O2 -Wall  -std=gnu99 -mtune=core2 -c foo.c -o foo.o
+c:/Rtools/mingw_64/bin/gcc -shared -s -static-libgcc -o foo.dll tmp.def foo.o -Lc:/PROGRA~1/R/R-36~1.3/bin/x64 -lR
+ 
+[1] TRUE
+```
+
 
 ### Install `rstan`
 
@@ -183,20 +269,58 @@ install.packages("rstan", dependencies = TRUE)
 ```
 “failed to create lock directory”
 ```
-#### Solutions  
+
+**Solution:**
 
 Check the path where R installs the libraries. You might not have writing permissions or there might be 
-
 ```
 install.packages("rstan", dependencies = TRUE, INSTALL_opts = c('--no-lock'))
 ```
 
-### Try `rstan` 
+***
 
-Check that the `rstan` package is working.
+It's possible that you get errors related to StanHeaters and Rccp not finding files.
 
+**Solution:**
+
+This is a known issue (and many people are really angry about it on different forums...). The recommended solution it to make a "makefile":
+
+Check your package versions, it's likely that `StanHeaders` is a newer version than `rstan` and that creates chaos.
 
 ```{r}
+packageVersion(c("rstan")) # '2.19.2' is the last tested one
+packageVersion(c("StanHeaders")) # '2.19.0' is the last one that actually works with rstan!
+```
+
+It's likely that the `StanHeaders` installation from CRAN gave you an updated package. If that's the case, remove everyhing and start over.
+
+```{r}
+remove.packages("rstan")
+remove.packages("StanHeaders")
+```
+
+
+Close Rstudio and open it again. Run this install.
+
+```{r}
+devtools::install_version("StanHeaders", version = "2.19.0", repos = "http://cran.us.r-project.org")
+install.package("rstan")
+```
+
+Now try `rstan`.
+
+> rstan is a particularly annoying thing, if you are still facing issues with rstan, don't assume it's you, it's likely rstan!
+
+There's advice here (but it probably doesn't work, so don't try that unless our solution doesn't work):
+
+https://github.com/stan-dev/rstan/wiki/Installing-RStan-from-source-on-Windows#configuration
+
+### Try `rstan` 
+
+It is imperative that you check that `rstan` works before you continue with the pipeline. Check that the `rstan` package is working, do:
+
+```{r}
+library(rstan)
 model<-'data{
 int N;
 real y[N];
@@ -260,10 +384,10 @@ Quit Rstudio.
 
 This time we need to update the system PATH manually, no help from installers. I find it this way in Windows 10: 
 
-This PC -> Right click -> Properties -> Advanced System Settings -> Environment Variables... -> System variables -> [highlight 
+This PC -> Right click -> Properties -> Advanced System Settings -> Environment Variables... -> System variables
 
 
-Then add the R and ROpenCVLite locations on the end so that the list looks like this (your "%System" lines may 
+Then add the R and ROpenCVLite locations on the end so that the list looks like this (your "%System" lines may be different)
 
 
 ```
@@ -291,6 +415,10 @@ If you are in doubt about where your R packages are installed, you can check fro
 ```{R}
 .libPaths()
 ```
+
+If you can't find opencv within ROpenCVLite, check your library installation. It could be here:
+
+`C:\R\[R-version]\opencv\x64\mingw\bin`
 
 > NOTE: If you encounter an error during installation of ROpenCVLite in your Windows machine with CMake recognizing your Rtools compilers, try setting either the CMake path to the top of your Paths variables, or the Rtools paths to the top of your Paths variables. This has worked on a few Windows machines. 
 
@@ -330,7 +458,7 @@ sudo apt-get upgrade
 
 ### Required libraries
 
-Begin by installed required libraries from terminal:
+Begin by installing required libraries from terminal:
 
 ```
 sudo apt-get install fftw3 fftw3-dev pkg-config
