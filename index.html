@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
 
 <meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -330,7 +331,6 @@ summary {
   border: none;
   display: inline-block;
   border-radius: 4px;
-  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -364,14 +364,15 @@ summary {
 
 <h1 class="title toc-ignore">Wholebrain Installation</h1>
 <h4 class="author">Ben Singer &amp; Matias Andina</h4>
-<h4 class="date">Last Updated: 2020-03-19</h4>
+<h4 class="date">Last Updated: 2020-12-14</h4>
 
 </div>
 
 <div id="TOC">
 <ul>
 <li><a href="#introduction">Introduction</a></li>
-<li><a href="#install-in-windows">Install in Windows</a><ul>
+<li><a href="#install-in-windows">Install in Windows</a>
+<ul>
 <li><a href="#install-r">Install R</a></li>
 <li><a href="#install-rstudio">Install Rstudio</a></li>
 <li><a href="#install-fftw">Install FFTW</a></li>
@@ -387,7 +388,8 @@ summary {
 <li><a href="#install-wholebrain">Install <code>wholebrain</code></a></li>
 <li><a href="#try-wholebrain">Try <code>wholebrain</code></a></li>
 </ul></li>
-<li><a href="#install-in-ubuntu">Install in Ubuntu</a><ul>
+<li><a href="#install-in-ubuntu">Install in Ubuntu</a>
+<ul>
 <li><a href="#required-libraries">Required libraries</a></li>
 <li><a href="#install-r-1">Install R</a></li>
 <li><a href="#install-rstudio-1">Install Rstudio</a></li>
@@ -517,7 +519,7 @@ C:\fftw;
 Running &quot;c:/PROGRA~1/R/R-36~1.3/bin/x64/Rcmd.exe&quot; SHLIB \
   foo.c
 Warning message:
-In system(cmd) : 'make' not found
+In system(cmd) : &#39;make&#39; not found
 Error: Failed to compile C code</code></pre>
 <p>You are going to install CMake in the next step, so don’t worry too much about the compiler now.</p>
 </div>
@@ -555,14 +557,23 @@ c:/Rtools/mingw_64/bin/gcc -shared -s -static-libgcc -o foo.dll tmp.def foo.o -L
 <pre><code>“failed to create lock directory”</code></pre>
 <p><strong>Solution:</strong></p>
 <p>Check the path where R installs the libraries. You might not have writing permissions or there might be</p>
-<pre><code>install.packages(&quot;rstan&quot;, dependencies = TRUE, INSTALL_opts = c('--no-lock'))</code></pre>
+<pre><code>install.packages(&quot;rstan&quot;, dependencies = TRUE, INSTALL_opts = c(&#39;--no-lock&#39;))</code></pre>
+<hr />
+<pre><code>Dependecy problems with v8</code></pre>
+<p><strong>Solution:</strong></p>
+<p>See <a href="https://stackoverflow.com/questions/62910664/installing-v8-required-by-rstan-on-gentoo">StackOverflow</a>, for a discussion of the problem due to an update on <code>v8</code>.</p>
+<p>To solve this issue, install <code>v8</code> before installing <code>rstan</code>.</p>
+<pre class="r"><code># For Linux: download libv8 during installation
+Sys.setenv(DOWNLOAD_STATIC_LIBV8=1)
+install.packages(&quot;V8&quot;)
+install.packages(&quot;rstan&quot;, dependencies=TRUE)</code></pre>
 <hr />
 <p>It’s possible that you get errors related to StanHeaters and Rccp not finding files.</p>
 <p><strong>Solution:</strong></p>
 <p>This is a known issue (and many people are really angry about it on different forums…). The recommended solution it to make a “makefile”:</p>
 <p>Check your package versions, it’s likely that <code>StanHeaders</code> is a newer version than <code>rstan</code> and that creates chaos.</p>
-<pre class="r"><code>packageVersion(c(&quot;rstan&quot;)) # '2.19.2' is the last tested one
-packageVersion(c(&quot;StanHeaders&quot;)) # '2.19.0' is the last one that actually works with rstan!</code></pre>
+<pre class="r"><code>packageVersion(c(&quot;rstan&quot;)) # &#39;2.19.2&#39; is the last tested one
+packageVersion(c(&quot;StanHeaders&quot;)) # &#39;2.19.0&#39; is the last one that actually works with rstan!</code></pre>
 <p>It’s likely that the <code>StanHeaders</code> installation from CRAN gave you an updated package. If that’s the case, remove everyhing and start over.</p>
 <pre class="r"><code>remove.packages(&quot;rstan&quot;)
 remove.packages(&quot;StanHeaders&quot;)</code></pre>
@@ -581,7 +592,7 @@ install.package(&quot;rstan&quot;)</code></pre>
 <h3>Try <code>rstan</code></h3>
 <p>It is imperative that you check that <code>rstan</code> works before you continue with the pipeline. Check that the <code>rstan</code> package is working, do:</p>
 <pre class="r"><code>library(rstan)
-model&lt;-'data{
+model&lt;-&#39;data{
 int N;
 real y[N];
 }
@@ -591,7 +602,7 @@ real sigma;
 }
 model{
 y ~ normal(mu, sigma);
-}'
+}&#39;
 
 
 model_data &lt;- list( y = rnorm(10), N = 10  )
@@ -651,7 +662,7 @@ C:\Users\[user_name]\Documents\R\win-library\3.5\ROpenCVLite\opencv\x64\mingw\bi
 <h3>Try <code>wholebrain</code></h3>
 <p>You should be able to run the segmentation example below</p>
 <pre class="r"><code>library(wholebrain) 
-filename&lt;-system.file('sample_tiles/rabiesEGFP.tif', package='wholebrain') 
+filename&lt;-system.file(&#39;sample_tiles/rabiesEGFP.tif&#39;, package=&#39;wholebrain&#39;) 
 seg&lt;-segment(filename) </code></pre>
 <div id="possible-errors-1" class="section level4">
 <h4>Possible errors</h4>
@@ -677,7 +688,7 @@ sudo apt-get upgrade</code></pre>
 <pre><code># Add repo to install the last R
 sudo apt install apt-transport-https software-properties-common
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu disco-cran35/'
+sudo add-apt-repository &#39;deb https://cloud.r-project.org/bin/linux/ubuntu disco-cran35/&#39;
 
 # Install R
 sudo apt update
@@ -691,17 +702,17 @@ Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
-Type 'license()' or 'licence()' for distribution details.
+Type &#39;license()&#39; or &#39;licence()&#39; for distribution details.
 
   Natural language support but running in an English locale
 
 R is a collaborative project with many contributors.
-Type 'contributors()' for more information and
-'citation()' on how to cite R or R packages in publications.
+Type &#39;contributors()&#39; for more information and
+&#39;citation()&#39; on how to cite R or R packages in publications.
 
-Type 'demo()' for some demos, 'help()' for on-line help, or
-'help.start()' for an HTML browser interface to help.
-Type 'q()' to quit R.
+Type &#39;demo()&#39; for some demos, &#39;help()&#39; for on-line help, or
+&#39;help.start()&#39; for an HTML browser interface to help.
+Type &#39;q()&#39; to quit R.
 
 &gt; 
 </code></pre>
@@ -724,13 +735,13 @@ sudo gdebi rstudio-1.2.5001-amd64.deb</code></pre>
 <div id="solutions" class="section level4">
 <h4>Solutions</h4>
 <p>Check the path where R installs the libraries. You might not have writing permissions or there might be</p>
-<pre><code>install.packages(&quot;rstan&quot;, dependencies = TRUE, INSTALL_opts = c('--no-lock'))</code></pre>
+<pre><code>install.packages(&quot;rstan&quot;, dependencies = TRUE, INSTALL_opts = c(&#39;--no-lock&#39;))</code></pre>
 </div>
 </div>
 <div id="try-rstan-1" class="section level3">
 <h3>Try <code>rstan</code></h3>
 <p>Check that the <code>rstan</code> package is working.</p>
-<pre class="r"><code>model&lt;-'data{
+<pre class="r"><code>model&lt;-&#39;data{
 int N;
 real y[N];
 }
@@ -740,7 +751,7 @@ real sigma;
 }
 model{
 y ~ normal(mu, sigma);
-}'
+}&#39;
 
 
 model_data &lt;- list( y = rnorm(10), N = 10  )
@@ -761,7 +772,7 @@ hist(la$mu)</code></pre>
 <p>Solution: See <a href="https://stackoverflow.com/questions/34264324/install-rgl-on-r-server-ubuntu">this post</a> and <a href="https://stackoverflow.com/questions/31820865/installing-rgl-on-ubuntu-and-mac-x11-not-found">this post</a>, which helped fix the issue by running from command line:</p>
 </blockquote>
 <pre><code>sudo apt-get install libcgal-dev libglu1-mesa-dev libglu1-mesa-dev</code></pre>
-<p>You can also find errors like <code>'No package 'freetype2' found'</code></p>
+<p>You can also find errors like <code>&#39;No package &#39;freetype2&#39; found&#39;</code></p>
 <blockquote>
 <p>Solution: Go to the terminal and run</p>
 </blockquote>
@@ -811,7 +822,7 @@ hist(la$mu)</code></pre>
 <h3>Try <code>wholebrain</code></h3>
 <p>You should be able to run the segmentation example below</p>
 <pre class="r"><code>library(wholebrain) 
-filename&lt;-system.file('sample_tiles/rabiesEGFP.tif', package='wholebrain') 
+filename&lt;-system.file(&#39;sample_tiles/rabiesEGFP.tif&#39;, package=&#39;wholebrain&#39;) 
 seg&lt;-segment(filename) </code></pre>
 </div>
 </div>

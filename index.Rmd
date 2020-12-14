@@ -276,6 +276,7 @@ Check the path where R installs the libraries. You might not have writing permis
 ```
 install.packages("rstan", dependencies = TRUE, INSTALL_opts = c('--no-lock'))
 ```
+***
 
 ```
 Dependecy problems with v8
@@ -287,7 +288,7 @@ See [StackOverflow](https://stackoverflow.com/questions/62910664/installing-v8-r
 
 To solve this issue, install `v8` before installing `rstan`.
 
-```
+```{r, eval=F}
 # For Linux: download libv8 during installation
 Sys.setenv(DOWNLOAD_STATIC_LIBV8=1)
 install.packages("V8")
