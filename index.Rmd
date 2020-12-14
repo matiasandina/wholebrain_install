@@ -277,6 +277,23 @@ Check the path where R installs the libraries. You might not have writing permis
 install.packages("rstan", dependencies = TRUE, INSTALL_opts = c('--no-lock'))
 ```
 
+```
+Dependecy problems with v8
+```
+
+**Solution:**
+
+See [StackOverflow](https://stackoverflow.com/questions/62910664/installing-v8-required-by-rstan-on-gentoo), for a discussion of the problem due to an update on `v8`.
+
+To solve this issue, install `v8` before installing `rstan`.
+
+```
+# For Linux: download libv8 during installation
+Sys.setenv(DOWNLOAD_STATIC_LIBV8=1)
+install.packages("V8")
+install.packages("rstan", dependencies=TRUE)
+```
+
 ***
 
 It's possible that you get errors related to StanHeaters and Rccp not finding files.
